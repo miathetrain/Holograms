@@ -28,11 +28,6 @@ public class FloatingPassage extends PluginBase {
 
         getServer().getCommandMap().register("floatingpassage", new FloatingPassageCmd(this));
 
-        for(Command command : this.getServer().getCommandMap().getCommands().values())
-        {
-            command.setPermissionMessage("You cannot do that sir!");
-        }
-        double number = - Math.PI / 2;
     }
 
 }
