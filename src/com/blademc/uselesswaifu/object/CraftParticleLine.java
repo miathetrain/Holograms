@@ -18,6 +18,7 @@ public class CraftParticleLine{
 
     private CraftParticle manager;
     private long entityId;
+    private UUID uuid;
     private String text;
     private int index;
     private static float offset = 0.40f;
@@ -26,6 +27,7 @@ public class CraftParticleLine{
     public CraftParticleLine(CraftParticle manager, String text, int index) {
         this.manager = manager;
         this.entityId = Entity.entityCount++;
+        this.uuid = UUID.randomUUID();
         this.text = text;
         this.index = index;
     }
@@ -56,7 +58,7 @@ public class CraftParticleLine{
 
     public AddPlayerPacket sendLine() {
         AddPlayerPacket pk = new AddPlayerPacket();
-        pk.uuid = UUID.randomUUID();
+        pk.uuid = this.uuid;
         pk.username = "";
         pk.entityUniqueId = this.entityId;
         pk.entityRuntimeId = this.entityId;
