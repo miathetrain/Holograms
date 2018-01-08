@@ -1,5 +1,6 @@
 package com.blademc.uselesswaifu;
 
+import cn.nukkit.command.Command;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
 import com.blademc.uselesswaifu.command.FloatingPassageCmd;
@@ -26,6 +27,12 @@ public class FloatingPassage extends PluginBase {
         instance = this;
 
         getServer().getCommandMap().register("floatingpassage", new FloatingPassageCmd(this));
+
+        for(Command command : this.getServer().getCommandMap().getCommands().values())
+        {
+            command.setPermissionMessage("You cannot do that sir!");
+        }
+        double number = - Math.PI / 2;
     }
 
 }
