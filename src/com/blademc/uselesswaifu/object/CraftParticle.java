@@ -78,8 +78,7 @@ public class CraftParticle{
     }
 
 
-    public void delLine(String arg) {
-        int index = Integer.parseInt(arg);
+    public void delLine(int index) {
         for (CraftParticleLine line : lines)
             if(line.getIndex() == index) {
                 for (Player player : this.level.getPlayers().values())
