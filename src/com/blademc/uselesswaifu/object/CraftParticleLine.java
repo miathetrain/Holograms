@@ -18,7 +18,6 @@ public class CraftParticleLine{
 
     private CraftParticle manager;
     private long entityId;
-    private UUID uuid;
     private String text;
     private int index;
     private static float offset = 0.40f;
@@ -27,7 +26,6 @@ public class CraftParticleLine{
     public CraftParticleLine(CraftParticle manager, String text, int index) {
         this.manager = manager;
         this.entityId = Entity.entityCount++;
-        this.uuid = UUID.randomUUID();
         this.text = text;
         this.index = index;
     }
@@ -56,33 +54,39 @@ public class CraftParticleLine{
         this.disabled = disabled;
     }
 
-    public AddPlayerPacket sendLine() {
-        AddPlayerPacket pk = new AddPlayerPacket();
-        pk.uuid = this.uuid;
-        pk.username = "";
-        pk.entityUniqueId = this.entityId;
-        pk.entityRuntimeId = this.entityId;
-        pk.x = manager.getX();
-        pk.y = manager.getY() - offset * index;
-        pk.z = manager.getZ();
-        pk.speedX = 0;
-        pk.speedY = 0;
-        pk.speedZ = 0;
-        pk.yaw = 0;
-        pk.pitch = 0;
-        long flags = (
-                (1L << Entity.DATA_FLAG_CAN_SHOW_NAMETAG) |
-                        (1L << Entity.DATA_FLAG_ALWAYS_SHOW_NAMETAG) |
-                        (1L << Entity.DATA_FLAG_IMMOBILE)
-        );
-        pk.metadata = new EntityMetadata()
-                .putLong(Entity.DATA_FLAGS, flags)
-                .putString(Entity.DATA_NAMETAG, this.getText())
-                .putLong(Entity.DATA_LEAD_HOLDER_EID,-1)
-                .putFloat(Entity.DATA_SCALE, 0.00f); //zero causes problems on debug builds?
-        pk.item = Item.get(Item.AIR);
+    public RemoveEntityPacket removeLine(){
+            RemoveEntityPacket pk = new RemoveEntityPacket();
+            pk.eid = this.entityId;
+            return pk;
 
-        return pk;
+    }
+    public AddPlayerPacket sendLine() {
+            AddPlayerPacket pk = new AddPlayerPacket();
+            pk.uuid = UUID.randomUUID();
+            pk.username = "";
+            pk.entityUniqueId = this.entityId;
+            pk.entityRuntimeId = this.entityId;
+            pk.x = manager.getX();
+            pk.y = manager.getY() - offset * index;
+            pk.z = manager.getZ();
+            pk.speedX = 0;
+            pk.speedY = 0;
+            pk.speedZ = 0;
+            pk.yaw = 0;
+            pk.pitch = 0;
+            long flags = (
+                    (1L << Entity.DATA_FLAG_CAN_SHOW_NAMETAG) |
+                            (1L << Entity.DATA_FLAG_ALWAYS_SHOW_NAMETAG) |
+                            (1L << Entity.DATA_FLAG_IMMOBILE)
+            );
+            pk.metadata = new EntityMetadata()
+                    .putLong(Entity.DATA_FLAGS, flags)
+                    .putString(Entity.DATA_NAMETAG, this.getText())
+                    .putLong(Entity.DATA_LEAD_HOLDER_EID, -1)
+                    .putFloat(Entity.DATA_SCALE, 0.00f); //zero causes problems on debug builds?
+            pk.item = Item.get(Item.AIR);
+
+            return pk;
     }
 
     public RemoveEntityPacket delLine() {

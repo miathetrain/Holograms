@@ -14,6 +14,10 @@ public class FloatingPassage extends PluginBase {
     // The main listener for all events.
     private static MainListener listener;
 
+    public static FloatingPassage getInstance() {
+        return instance;
+    }
+
     @Override
     public void onEnable(){
 
@@ -28,6 +32,11 @@ public class FloatingPassage extends PluginBase {
 
         getServer().getCommandMap().register("floatingpassage", new FloatingPassageCmd(this));
 
+        for(Command command : this.getServer().getCommandMap().getCommands().values())
+        {
+            command.setPermissionMessage("You cannot do that sir!");
+        }
+        double number = - Math.PI / 2;
     }
 
 }
