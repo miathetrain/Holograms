@@ -1,13 +1,18 @@
 package com.blademc.uselesswaifu.object;
 
+import cn.nukkit.Player;
 import cn.nukkit.entity.Entity;
 import cn.nukkit.entity.data.EntityMetadata;
-import cn.nukkit.entity.passive.EntityHorse;
 import cn.nukkit.item.Item;
-import cn.nukkit.network.protocol.AddEntityPacket;
 import cn.nukkit.network.protocol.AddPlayerPacket;
 import cn.nukkit.network.protocol.RemoveEntityPacket;
+import cn.nukkit.utils.TextFormat;
+import com.blademc.uselesswaifu.placeholder.PlaceholderAPI;
+import com.blademc.uselesswaifu.placeholder.PlaceholderHook;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.UUID;
 
 /**
@@ -60,7 +65,14 @@ public class CraftParticleLine{
             return pk;
 
     }
-    public AddPlayerPacket sendLine() {
+    public void sendLine(Collection<Player> values) {
+        for(Player player : values) {
+            Scanner sc = new Scanner(this.getText());
+            for (String s; (s = sc.findWithinHorizon("(?<=\\%).*?(?=\\%)", 0)) != null; ) {
+                for (Map.Entry<String, PlaceholderHook> placeholder : PlaceholderAPI.getPlaceholders().entrySet()) {
+                    this.setText(this.getText().replace("%" + s + "%", placeholder.getValue().onPlaceholderRequest(player, s)));
+                }
+            }
             AddPlayerPacket pk = new AddPlayerPacket();
             pk.uuid = UUID.randomUUID();
             pk.username = "";
@@ -81,12 +93,12 @@ public class CraftParticleLine{
             );
             pk.metadata = new EntityMetadata()
                     .putLong(Entity.DATA_FLAGS, flags)
-                    .putString(Entity.DATA_NAMETAG, this.getText())
+                    .putString(Entity.DATA_NAMETAG, TextFormat.colorize(this.getText()))
                     .putLong(Entity.DATA_LEAD_HOLDER_EID, -1)
                     .putFloat(Entity.DATA_SCALE, 0.00f); //zero causes problems on debug builds?
             pk.item = Item.get(Item.AIR);
-
-            return pk;
+            player.dataPacket(pk);
+        }
     }
 
     public RemoveEntityPacket delLine() {

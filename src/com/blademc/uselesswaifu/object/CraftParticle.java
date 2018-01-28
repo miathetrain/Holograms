@@ -2,11 +2,8 @@ package com.blademc.uselesswaifu.object;
 
 
 import cn.nukkit.Player;
-import cn.nukkit.Server;
-import cn.nukkit.entity.Entity;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
-import cn.nukkit.network.protocol.RemoveEntityPacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +35,10 @@ public class CraftParticle{
         addLine("This is an Example Line (Remove using /fp removeline 1)");
     }
 
+    public String getName(){
+        return name;
+    }
+
     public Level getLevel(){
         return level;
     }
@@ -52,6 +53,10 @@ public class CraftParticle{
 
     public Float getZ(){
         return (float) z;
+    }
+
+    public List<CraftParticleLine> getLines(){
+        return lines;
     }
 
     private void updateLocation(Level level, double x, double y, double z) {
@@ -77,8 +82,7 @@ public class CraftParticle{
                 if (!line.getDisabled()) {
                     line.setIndex(index);
                     index++;
-                    for (Player player : this.level.getPlayers().values())
-                        player.dataPacket(line.sendLine());
+                        line.sendLine(this.level.getPlayers().values());
                 }
             }
         }

@@ -11,5 +11,6 @@ public abstract class PlaceholderHook {
      * @param identifier placeholder identifier for the specific value
      * @return value for the requested player and identifier
      */
+
     public abstract String onPlaceholderRequest(Player p, String identifier);
 }

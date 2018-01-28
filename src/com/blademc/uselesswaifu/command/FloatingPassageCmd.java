@@ -1,6 +1,7 @@
 package com.blademc.uselesswaifu.command;
 
-import java.util.Arrays;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,22 +9,33 @@ import java.util.Map;
 import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
+import cn.nukkit.level.Location;
+import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import com.blademc.uselesswaifu.FloatingPassage;
-import com.blademc.uselesswaifu.object.CraftParticle;;
+import com.blademc.uselesswaifu.object.CraftParticle;
+import com.blademc.uselesswaifu.object.CraftParticleLine;;
 
 public class FloatingPassageCmd extends Command {
 
     private Map<String, CraftParticle> holograms = new HashMap<>();
     private static String SPACE_SEPARATOR = " ";
-    private FloatingPassage instance;
+    private static FloatingPassageCmd instance;
     private CraftParticle test;
 
     public FloatingPassageCmd(FloatingPassage instance) {
         super("floatingpassage");
-        this.instance = instance;
+        this.instance = this;
         setAliases(new String[]{"fp"});
         setUsage("/fp or /floatingpassage");
+    }
+
+    public static FloatingPassageCmd getInstance(){
+        return instance;
+    }
+
+    public Map<String, CraftParticle> getHolograms(){
+        return holograms;
     }
 
     @Override
@@ -35,7 +47,7 @@ public class FloatingPassageCmd extends Command {
         }
 
         if(args[0].equals("create")){
-            test = new CraftParticle(player.getLocation().add(0, 2), args[1]); // Location, CraftName
+            holograms.put(args[1], test = new CraftParticle(player.getLocation().add(0, 2), args[1])); // Location, CraftName
             player.sendMessage(TextFormat.GRAY + "FloatingPassage has been created");
             return true;
         }
@@ -46,6 +58,11 @@ public class FloatingPassageCmd extends Command {
         }
 
         if(args[0].equals("list")){
+            String s = "";
+            for(Map.Entry<String, CraftParticle> craft : holograms.entrySet()){
+                s+= craft.getKey() + ", ";
+            }
+            player.sendMessage(s);
 
         }
 
@@ -105,6 +122,29 @@ public class FloatingPassageCmd extends Command {
 
         if(args[0].equals("reload")){
 
+        }
+
+        if(args[0].equals("save")){
+            Config config = new Config(new File(FloatingPassage.getInstance().getDataFolder(), "holograms.yml"), Config.YAML);
+            for(Map.Entry<String, CraftParticle> hologram : FloatingPassageCmd.getInstance().getHolograms().entrySet()){
+                if(hologram.getValue().getDeleted())
+                    continue;
+                Map<String, Object> stuff = new HashMap<>();
+                Map<String, Object> location = new HashMap<>();
+                CraftParticle h = hologram.getValue();
+                location.put("X", h.getX()); location.put("Y", h.getY()); location.put("Z", h.getZ()); location.put("Level", h.getLevel().getName());
+                stuff.put("Location", location);
+                Map<String, Object> text = new HashMap<>();
+                for(CraftParticleLine line : h.getLines()){
+                    if(!line.getDisabled())
+                    text.put("Text" + Integer.toString(line.getIndex()), line.getText());
+                }
+
+                stuff.put("Lines", text);
+
+                config.set(hologram.getKey(), stuff);
+            }
+            config.save();
         }
 
         return true;
