@@ -7,6 +7,7 @@ import java.util.Map;
 
 
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.level.Location;
@@ -122,6 +123,18 @@ public class FloatingPassageCmd extends Command {
 
         if(args[0].equals("reload")){
 
+        }
+
+        if(args[0].equals("load")){
+            Config config = new Config(new File(FloatingPassage.getInstance().getDataFolder(), "holograms.yml"), Config.YAML);
+            for(Map.Entry<String, Object> object : config.getAll().entrySet()){ // THE BIG FILE // THE ORIGINAL HOLOGRAM NAME {HOLOGRAM OBJECT}
+
+                holograms.put(object.getKey(), test = new CraftParticle(player.getLocation().add(0, 2), object.getKey()));
+                test.updateLocation(Server.getInstance().getLevelByName(config.getString("Location.Level")), config.getDouble("Location.X"), config.getDouble("Location.Y"), config.getDouble("Location.Z"));
+                for(Map.Entry<String, Object> stuff : ((Map<String, Object>) ((Map<String, Object>) object.getValue()).get("Lines")).entrySet()){ // THESE ARE THE LINES
+                    test.addLine((String) stuff.getValue());
+                }
+            }
         }
 
         if(args[0].equals("save")){

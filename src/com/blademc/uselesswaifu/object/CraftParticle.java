@@ -32,7 +32,7 @@ public class CraftParticle{
         updateLocation(location.level, location.x, location.y, location.z);
         this.name = name;
         lines = new ArrayList<>();
-        addLine("This is an Example Line (Remove using /fp removeline 1)");
+        //addLine("This is an Example Line (Remove using /fp removeline 1)");
     }
 
     public String getName(){
@@ -59,7 +59,7 @@ public class CraftParticle{
         return lines;
     }
 
-    private void updateLocation(Level level, double x, double y, double z) {
+    public void updateLocation(Level level, double x, double y, double z) {
         this.level = level;
         this.x = x;
         this.y = y;
