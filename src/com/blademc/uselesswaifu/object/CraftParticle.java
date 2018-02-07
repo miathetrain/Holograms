@@ -2,6 +2,7 @@ package com.blademc.uselesswaifu.object;
 
 
 import cn.nukkit.Player;
+import cn.nukkit.Server;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 
@@ -75,7 +76,20 @@ public class CraftParticle{
         return index;
     }
 
-    private void sendLines() {
+    public void updateLines(){
+        int index = 1;
+        if(!this.deleted) {
+            for (CraftParticleLine line : lines) {
+                if (!line.getDisabled() && line.getUpdate()) {
+                    line.setIndex(index);
+                    index++;
+                    line.sendLine(this.level.getPlayers().values());
+                }
+            }
+        }
+    }
+
+    public void sendLines() {
         int index = 1;
         if(!this.deleted) {
             for (CraftParticleLine line : lines) {
@@ -105,7 +119,7 @@ public class CraftParticle{
     }
 
 
-    public void delLine(String arg) {
+    public void deleteLine(String arg) {
         int index = Integer.parseInt(arg);
         for (CraftParticleLine line : lines)
             if(line.getIndex() == index) {

@@ -40,7 +40,7 @@ public class PlayerExpansion extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player p, String identifier) {
 
         if (p == null) {
-            return "";
+            //return "";
         }
 
         if (identifier.startsWith("others_in_range_")) {
@@ -76,51 +76,51 @@ public class PlayerExpansion extends PlaceholderExpansion {
             case "servername":
                 return Server.getInstance().getName();
             case "name":
-                return p.getName();
+                return p == null ? null : p.getName();
             case "displayname":
-                return p.getDisplayName();
+                return p == null ? null : p.getDisplayName();
             case "uuid":
-                return p.getUniqueId().toString();
+                return p == null ? null : p.getUniqueId().toString();
             case "gamemode":
-                return String.valueOf(p.getGamemode());
+                return p == null ? null : String.valueOf(p.getGamemode());
             case "world":
-                return p.getLevel().getName();
+                return p == null ? null : p.getLevel().getName();
             case "x":
-                return String.valueOf(p.getLocation().getFloorX());
+                return p == null ? null : String.valueOf(p.getLocation().getFloorX());
             case "y":
-                return String.valueOf(p.getLocation().getFloorY());
+                return p == null ? null : String.valueOf(p.getLocation().getFloorY());
             case "z":
-                return String.valueOf(p.getLocation().getFloorZ());
+                return p == null ? null : String.valueOf(p.getLocation().getFloorZ());
             case "is_op":
-                return p.isOp() ? PlaceholderAPI.TRUE : PlaceholderAPI.FALSE;
+                return p == null ? null : p.isOp() ? PlaceholderAPI.TRUE : PlaceholderAPI.FALSE;
             case "ip":
-                return p.getAddress();
+                return p == null ? null : p.getAddress();
             case "allow_flight":
-                return p.getAllowFlight() ? PlaceholderAPI.TRUE : PlaceholderAPI.FALSE;
+                return p == null ? null : p.getAllowFlight() ? PlaceholderAPI.TRUE : PlaceholderAPI.FALSE;
             case "ping":
-                return Integer.toString(p.getPing());
+                return p == null ? null : Integer.toString(p.getPing());
             case "custom_name":
-                return p.getDisplayName() != null ? p.getDisplayName() : p.getName();
+                return p == null ? null : p.getDisplayName() != null ? p.getDisplayName() : p.getName();
             case "exp":
-                return String.valueOf(p.getExperience());
+                return p == null ? null : String.valueOf(p.getExperience());
             case "exp_to_level":
-                return String.valueOf(p.getExperienceLevel());
+                return p == null ? null : String.valueOf(p.getExperienceLevel());
             case "level":
-                return String.valueOf(p.getLevel());
+                return p == null ? null : String.valueOf(p.getLevel());
             case "food_level":
-                return String.valueOf(p.getFoodData().getLevel());
+                return p == null ? null : String.valueOf(p.getFoodData().getLevel());
             case "health":
-                return String.valueOf(p.getHealth());
+                return p == null ? null : String.valueOf(p.getHealth());
             case "item_in_hand":
-                return p.getInventory().getItemInHand() != null ? p.getInventory().getItemInHand().getName() : "";
+                return p == null ? null : p.getInventory().getItemInHand() != null ? p.getInventory().getItemInHand().getName() : "";
             case "last_damage":
-                return String.valueOf(p.getLastDamageCause().getCause());
+                return p == null ? null : String.valueOf(p.getLastDamageCause().getCause());
             case "max_health":
-                return String.valueOf(p.getMaxHealth());
+                return p == null ? null : String.valueOf(p.getMaxHealth());
             case "max_air":
-                return String.valueOf(p.getInAirTicks());
+                return p == null ? null : String.valueOf(p.getInAirTicks());
             case "time":
-                return String.valueOf(p.getLevel().getTime());
+                return p == null ? null : String.valueOf(p.getLevel().getTime());
         }
         return identifier;
 

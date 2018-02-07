@@ -9,6 +9,7 @@ import com.blademc.uselesswaifu.expansion.PlayerExpansion;
 import com.blademc.uselesswaifu.listener.MainListener;
 import com.blademc.uselesswaifu.object.CraftParticle;
 import com.blademc.uselesswaifu.placeholder.PlaceholderAPI;
+import com.blademc.uselesswaifu.task.HologramUpdateTask;
 
 import java.io.File;
 import java.util.Map;
@@ -21,10 +22,16 @@ public class FloatingPassage extends PluginBase {
     // The main listener for all events.
     private static MainListener listener;
 
+    // The Manager for all Holograms!
+    private static HologramManager hologramManager;
+
     public static FloatingPassage getInstance() {
         return instance;
     }
 
+    public static HologramManager getHologramManager(){
+        return hologramManager;
+    }
     @Override
     public void onEnable(){
 
@@ -39,18 +46,21 @@ public class FloatingPassage extends PluginBase {
 
         PlaceholderAPI.registerPlaceholderHook(this, new PlayerExpansion());
 
+        new HologramManager();
+
+        getServer().getPluginManager().registerEvents(new MainListener(), this);
+
         getServer().getCommandMap().register("floatingpassage", new FloatingPassageCmd(this));
 
-        for(Command command : this.getServer().getCommandMap().getCommands().values())
-        {
-            command.setPermissionMessage("You cannot do that sir!");
-        }
-        double number = - Math.PI / 2;
+        getServer().getScheduler().scheduleRepeatingTask(this, new HologramUpdateTask(this), 2);
+
+        // LOAD HOLOGRAMS IN CONFIG!
+        HologramManager.getInstance().load();
     }
 
     @Override
     public void onDisable(){
-
+        HologramManager.getInstance().save();
     }
 
 }
