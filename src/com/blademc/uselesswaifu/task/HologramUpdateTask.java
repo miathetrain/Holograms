@@ -8,6 +8,7 @@ import com.blademc.uselesswaifu.object.CraftParticleLine;
 
 public class HologramUpdateTask extends PluginTask<FloatingPassage> {
     private FloatingPassage plugin;
+
     public HologramUpdateTask(FloatingPassage plugin) {
         super(plugin);
         this.plugin = plugin;
@@ -16,9 +17,9 @@ public class HologramUpdateTask extends PluginTask<FloatingPassage> {
     @Override
     public void onRun(int i) {
         long time = System.currentTimeMillis();
-        for(CraftParticle hologram : HologramManager.getInstance().getHolograms().values()){
-            for(CraftParticleLine line : hologram.getLines()){
-                if(!line.getDisabled() && time > line.getLastUpdateTime() + line.getDelay()){
+        for (CraftParticle hologram : HologramManager.getInstance().getHolograms().values()) {
+            for (CraftParticleLine line : hologram.getLines()) {
+                if (!line.getDisabled() && time > line.getLastUpdateTime() + line.getDelay()) {
                     line.updateLines();
                 }
             }

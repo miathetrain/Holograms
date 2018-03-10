@@ -1,18 +1,12 @@
 package com.blademc.uselesswaifu;
 
-import cn.nukkit.command.Command;
 import cn.nukkit.plugin.PluginBase;
-import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import com.blademc.uselesswaifu.command.FloatingPassageCmd;
 import com.blademc.uselesswaifu.expansion.PlayerExpansion;
 import com.blademc.uselesswaifu.listener.MainListener;
-import com.blademc.uselesswaifu.object.CraftParticle;
 import com.blademc.uselesswaifu.placeholder.PlaceholderAPI;
 import com.blademc.uselesswaifu.task.HologramUpdateTask;
-
-import java.io.File;
-import java.util.Map;
 
 public class FloatingPassage extends PluginBase {
 
@@ -29,14 +23,15 @@ public class FloatingPassage extends PluginBase {
         return instance;
     }
 
-    public static HologramManager getHologramManager(){
+    public static HologramManager getHologramManager() {
         return hologramManager;
     }
+
     @Override
-    public void onEnable(){
+    public void onEnable() {
 
         // Warn players about using /reload command.
-        if(instance != null || System.getProperty("FloatingPassageLoaded") != null){
+        if (instance != null || System.getProperty("FloatingPassageLoaded") != null) {
             this.getLogger().error("Please do not use /reload or plugin reloaders. You will receive no support for this operation");
         }
 
@@ -59,7 +54,7 @@ public class FloatingPassage extends PluginBase {
     }
 
     @Override
-    public void onDisable(){
+    public void onDisable() {
         HologramManager.getInstance().save();
     }
 

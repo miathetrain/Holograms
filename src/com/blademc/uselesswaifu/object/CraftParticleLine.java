@@ -9,7 +9,6 @@ import cn.nukkit.network.protocol.AddPlayerPacket;
 import cn.nukkit.network.protocol.RemoveEntityPacket;
 import cn.nukkit.network.protocol.SetEntityDataPacket;
 import cn.nukkit.utils.TextFormat;
-import com.blademc.uselesswaifu.expansion.PlayerExpansion;
 import com.blademc.uselesswaifu.placeholder.PlaceholderAPI;
 import com.blademc.uselesswaifu.placeholder.PlaceholderHook;
 
@@ -24,13 +23,13 @@ import static cn.nukkit.entity.Entity.DATA_NAMETAG;
  * Created on 2018/01/7 by nora.
  **/
 
-public class CraftParticleLine{
+public class CraftParticleLine {
 
+    private static float offset = 0.40f;
     private CraftParticle manager;
     private long entityId;
     private String text;
     private int index;
-    private static float offset = 0.40f;
     private Boolean disabled = false;
     private Boolean update = false;
     private int delay = 1000;
@@ -48,43 +47,43 @@ public class CraftParticleLine{
         return text;
     }
 
-    public long getLastUpdateTime(){
-        return lastUpdateTime;
-    }
-
-    public int getDelay(){
-        return delay;
-    }
-
     private void setText(String text) {
         this.text = text;
         this.update = false;
         Scanner sc = new Scanner(text);
         for (String s; (s = sc.findWithinHorizon("(?<=%).*?(?=%)", 0)) != null; ) {
             for (Map.Entry<String, PlaceholderHook> placeholder : PlaceholderAPI.getPlaceholders().entrySet()) {
-                if(placeholder.getValue().onPlaceholderRequest(null, s) == null){
+                if (placeholder.getValue().onPlaceholderRequest(null, s) == null) {
                     this.setUpdate();
                     return;
                 }
-                if(!placeholder.getValue().onPlaceholderRequest(null, s).equals(s))
-                this.setUpdate();
+                if (!placeholder.getValue().onPlaceholderRequest(null, s).equals(s))
+                    this.setUpdate();
             }
         }
     }
 
-    private void setUpdate(){
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    private void setUpdate() {
         this.update = true;
     }
 
-    public Boolean getUpdate(){
+    public Boolean getUpdate() {
         return this.update;
     }
 
-    public Integer getIndex(){
+    public Integer getIndex() {
         return index;
     }
 
-    public void setIndex(Integer index){
+    public void setIndex(Integer index) {
         this.index = index;
     }
 
@@ -96,17 +95,17 @@ public class CraftParticleLine{
         this.disabled = disabled;
     }
 
-    public RemoveEntityPacket removeLine(){
-            RemoveEntityPacket pk = new RemoveEntityPacket();
-            pk.eid = this.entityId;
-            return pk;
+    public RemoveEntityPacket removeLine() {
+        RemoveEntityPacket pk = new RemoveEntityPacket();
+        pk.eid = this.entityId;
+        return pk;
 
     }
 
-    public void updateLines(){
+    public void updateLines() {
         if (!this.getDisabled() && this.getUpdate() && this.getText() != this.previousText) {
             String name = this.getText();
-            for(Player player : this.manager.getLevel().getPlayers().values()) {
+            for (Player player : this.manager.getLevel().getPlayers().values()) {
                 Scanner sc = new Scanner(name);
                 for (String s; (s = sc.findWithinHorizon("(?<=%).*?(?=%)", 0)) != null; ) {
                     for (Map.Entry<String, PlaceholderHook> placeholder : PlaceholderAPI.getPlaceholders().entrySet()) {
@@ -125,7 +124,7 @@ public class CraftParticleLine{
 
     public void sendLine(Collection<Player> values) {
         String name = this.getText();
-        for(Player player : values) {
+        for (Player player : values) {
             Scanner sc = new Scanner(name);
             for (String s; (s = sc.findWithinHorizon("(?<=%).*?(?=%)", 0)) != null; ) {
                 for (Map.Entry<String, PlaceholderHook> placeholder : PlaceholderAPI.getPlaceholders().entrySet()) {

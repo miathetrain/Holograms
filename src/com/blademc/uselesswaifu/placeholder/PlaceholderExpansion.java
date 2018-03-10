@@ -8,13 +8,14 @@ import java.util.List;
 /**
  * Classes which extend this class are recognized as placeholder expansions
  * when they are located inside of the /plugins/placeholderapi/expansions/ folder.
- * @author Ryan McCarthy
  *
+ * @author Ryan McCarthy
  */
 public abstract class PlaceholderExpansion extends PlaceholderHook {
 
     /**
      * Check if a placeholder has already been registered with this identifier
+     *
      * @return
      */
     public boolean isRegistered() {
@@ -24,6 +25,7 @@ public abstract class PlaceholderExpansion extends PlaceholderHook {
 
     /**
      * Attempt to register this PlaceholderExpansion with PlaceholderAPI
+     *
      * @return true if this class and identifier have been successfully registered with PlaceholderAPI
      */
     public boolean register() {
@@ -33,6 +35,7 @@ public abstract class PlaceholderExpansion extends PlaceholderHook {
 
     /**
      * Quick getter for the {@link FloatingPassage} instance
+     *
      * @return {@link FloatingPassage} instance
      */
     public FloatingPassage getPlaceholderAPI() {
@@ -41,12 +44,14 @@ public abstract class PlaceholderExpansion extends PlaceholderHook {
 
     /**
      * If any requirements are required to be checked before this hook can register, add them here
+     *
      * @return true if this hook meets all the requirements to register
      */
     public abstract boolean canRegister();
 
     /**
      * Get the identifier that this placeholder expansion uses to be passed placeholder requests
+     *
      * @return placeholder identifier that is associated with this class
      */
     public abstract String getIdentifier();
@@ -57,18 +62,21 @@ public abstract class PlaceholderExpansion extends PlaceholderHook {
      * get.
      * The expansion will be removed from the cache
      * once a plugin loads with the name that is here and the expansion is registered
+     *
      * @return placeholder identifier that is associated with this class
      */
     public abstract String getPlugin();
 
     /**
      * Get the author of this PlaceholderExpansion
+     *
      * @return name of the author for this expansion
      */
     public abstract String getAuthor();
 
     /**
      * Get the version of this PlaceholderExpansion
+     *
      * @return current version of this expansion
      */
     public abstract String getVersion();

@@ -9,8 +9,8 @@ import com.blademc.uselesswaifu.object.CraftParticle;
 public class MainListener implements Listener {
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event){
-        for(CraftParticle hologram : HologramManager.getInstance().getHolograms().values()){
+    public void onJoin(PlayerJoinEvent event) {
+        for (CraftParticle hologram : HologramManager.getInstance().getHolograms().values()) {
             hologram.sendLines();
         }
     }

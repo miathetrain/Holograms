@@ -1,37 +1,26 @@
 package com.blademc.uselesswaifu.placeholder;
 
-import cn.nukkit.Nukkit;
 import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.plugin.Plugin;
 import com.blademc.uselesswaifu.placeholder.event.PlaceholderHookUnloadEvent;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-
 public class PlaceholderAPI {
-
-    private final static Pattern PLACEHOLDER_PATTERN = Pattern.compile("[%]([^%]+)[%]");
-
-    private final static Pattern BRACKET_PLACEHOLDER_PATTERN = Pattern.compile("[{]([^{}]+)[}]");
 
     public final static String TRUE = "true";
     public final static String FALSE = "false";
-
+    private final static Pattern PLACEHOLDER_PATTERN = Pattern.compile("[%]([^%]+)[%]");
+    private final static Pattern BRACKET_PLACEHOLDER_PATTERN = Pattern.compile("[{]([^{}]+)[}]");
     private static Map<String, PlaceholderHook> placeholders = new HashMap<String, PlaceholderHook>();
 
     /**
      * unregister all placeholder hooks which were registered by PlaceholderAPI
-     *
      */
     protected static void resetInternalPlaceholderHooks() {
 
@@ -58,6 +47,7 @@ public class PlaceholderAPI {
 
     /**
      * check if a specific placeholder identifier has already been registered
+     *
      * @param plugin
      * @return
      */
@@ -79,7 +69,8 @@ public class PlaceholderAPI {
      * placeholders always follow a specific format - %<plugin>_<identifier>%
      * The identifier is passed to the method which will provide the value. It is up to the registering plugin to determine what
      * a valid identifier is. If an identifier is unknown, you may return null which specifies the placeholder is invalid.
-     * @param plugin Plugin registering the placeholder hook
+     *
+     * @param plugin          Plugin registering the placeholder hook
      * @param placeholderHook PlaceholderHook class that contains the override method which is called when a value is needed for the specific plugins placeholder
      * @return true if the hook was successfully registered, false if there was already a hook registered for the specified plugin
      */
@@ -98,12 +89,13 @@ public class PlaceholderAPI {
      * placeholders always follow a specific format - %<plugin>_<identifier>%
      * The identifier is passed to the method which will provide the value. It is up to the registering plugin to determine what
      * a valid identifier is. If an identifier is unknown, you may return null which specifies the placeholder is invalid.
-     * @param plugin Plugin name registering the placeholder hook
+     *
+     * @param plugin          Plugin name registering the placeholder hook
      * @param placeholderHook PlaceholderHook class that contains the override method which is called when a value is needed for the specific plugins placeholder
      * @return true if the hook was successfully registered, false if there was already a hook registered for the specified plugin
      */
     public static boolean registerPlaceholderHook(String plugin, PlaceholderHook placeholderHook) {
-        if (placeholders == null ) {
+        if (placeholders == null) {
             placeholders = new HashMap<String, PlaceholderHook>();
         }
 
@@ -135,6 +127,7 @@ public class PlaceholderAPI {
 
     /**
      * unregister a placeholder hook for a specific plugin
+     *
      * @param plugin Plugin to unregister
      * @return true if the placeholder hook was successfully unregistered, false if there was no placeholder hook registered for the plugin specified
      */
@@ -149,6 +142,7 @@ public class PlaceholderAPI {
 
     /**
      * unregister a placeholder hook for a specific plugin
+     *
      * @param plugin Plugin name to unregister
      * @return true if the placeholder hook was successfully unregistered, false if there was no placeholder hook registered for the plugin specified
      */
@@ -167,6 +161,7 @@ public class PlaceholderAPI {
 
     /**
      * obtain the names of every placeholder "plugin" identifier that has been registered
+     *
      * @return Set of placeholder "plugin" identifiers currently registered
      */
     public static Set<String> getRegisteredPlaceholderPlugins() {
@@ -180,6 +175,7 @@ public class PlaceholderAPI {
 
     /**
      * obtain the names of every external placeholder "plugin" identifier that was not registered by PlaceholderAPI
+     *
      * @return Set of placeholder identifier names that PlaceholderAPI did not register placeholders for
      */
     public static Set<String> getExternalPlaceholderPlugins() {
@@ -201,6 +197,7 @@ public class PlaceholderAPI {
 
     /**
      * obtain the map of registered placeholder hook plugins and the corresponding PlaceholderHooks registered
+     *
      * @return copy of the internal placeholder map.
      */
     public static Map<String, PlaceholderHook> getPlaceholders() {
@@ -209,6 +206,7 @@ public class PlaceholderAPI {
 
     /**
      * check if a String contains any valid PlaceholderAPI placeholders
+     *
      * @param text String to check
      * @return true if String passed contains any valid PlaceholderAPI placeholder identifiers, false otherwise
      */
@@ -224,6 +222,7 @@ public class PlaceholderAPI {
 
     /**
      * check if a String contains any valid PlaceholderAPI bracket placeholders
+     *
      * @param text String to check
      * @return true if String passed contains any valid PlaceholderAPI placeholder identifiers, false otherwise
      */
@@ -239,7 +238,8 @@ public class PlaceholderAPI {
     /**
      * set placeholders in the list<String> text provided
      * placeholders are matched with the pattern {<placeholder>} when set with this method
-     * @param p Player to set the placeholders for
+     *
+     * @param p    Player to set the placeholders for
      * @param text text to set the placeholder values in
      * @return original list with all valid placeholders set to the correct values if the list contains any valid placeholders
      */
@@ -257,8 +257,9 @@ public class PlaceholderAPI {
     /**
      * set placeholders in the text specified
      * placeholders are matched with the pattern {<placeholder>} when set with this method
+     *
      * @param player Player to set the placeholders for
-     * @param text text to set the placeholder values to
+     * @param text   text to set the placeholder values to
      * @return original text with all valid placeholders set to the correct values if the String contains valid placeholders
      */
     public static String setBracketPlaceholders(Player player, String text) {
@@ -283,7 +284,7 @@ public class PlaceholderAPI {
 
             String pl = format.substring(0, index);
 
-            String identifier = format.substring(index+1);
+            String identifier = format.substring(index + 1);
 
             for (Entry<String, PlaceholderHook> e : entries) {
 
@@ -292,7 +293,7 @@ public class PlaceholderAPI {
                     String value = e.getValue().onPlaceholderRequest(player, identifier);
 
                     if (value != null) {
-                        text = text.replaceAll("\\{"+format+"\\}", Matcher.quoteReplacement(value));
+                        text = text.replaceAll("\\{" + format + "\\}", Matcher.quoteReplacement(value));
                     }
                     break;
                 }
@@ -305,7 +306,8 @@ public class PlaceholderAPI {
     /**
      * set placeholders in the list<String> text provided
      * placeholders are matched with the pattern %<placeholder>% when set with this method
-     * @param p Player to set the placeholders for
+     *
+     * @param p    Player to set the placeholders for
      * @param text text to set the placeholder values in
      * @return original list with all valid placeholders set to the correct values if the list contains any valid placeholders
      */
@@ -323,8 +325,9 @@ public class PlaceholderAPI {
     /**
      * set placeholders in the text specified
      * placeholders are matched with the pattern %<placeholder>% when set with this method
+     *
      * @param player Player to set the placeholders for
-     * @param text text to set the placeholder values to
+     * @param text   text to set the placeholder values to
      * @return original text with all valid placeholders set to the correct values if the String contains valid placeholders
      */
     public static String setPlaceholders(Player player, String text) {
@@ -349,7 +352,7 @@ public class PlaceholderAPI {
 
             String pl = format.substring(0, index);
 
-            String identifier = format.substring(index+1);
+            String identifier = format.substring(index + 1);
 
             for (Entry<String, PlaceholderHook> e : entries) {
 
@@ -358,7 +361,7 @@ public class PlaceholderAPI {
                     String value = e.getValue().onPlaceholderRequest(player, identifier);
 
                     if (value != null) {
-                        text = text.replace("%"+format+"%", Matcher.quoteReplacement(value));
+                        text = text.replace("%" + format + "%", Matcher.quoteReplacement(value));
                     }
                 }
             }

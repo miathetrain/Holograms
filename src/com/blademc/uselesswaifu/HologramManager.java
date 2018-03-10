@@ -5,7 +5,6 @@ import cn.nukkit.Server;
 import cn.nukkit.level.Location;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.utils.Config;
-import com.blademc.uselesswaifu.command.FloatingPassageCmd;
 import com.blademc.uselesswaifu.object.CraftParticle;
 import com.blademc.uselesswaifu.object.CraftParticleLine;
 
@@ -20,49 +19,49 @@ public class HologramManager {
     private Map<String, CraftParticle> holograms = new HashMap<>();
     private Map<UUID, CraftParticle> currentlySelected = new HashMap<>();
 
-    public HologramManager(){
+    public HologramManager() {
         instance = this;
     }
 
-    public static HologramManager getInstance(){
+    public static HologramManager getInstance() {
         return instance;
     }
 
-    public Map<String, CraftParticle> getHolograms(){
+    public Map<String, CraftParticle> getHolograms() {
         return holograms;
     }
 
-    public void createHologram(String name, Location loc){
+    public void createHologram(String name, Location loc) {
         holograms.put(name, new CraftParticle(loc.add(0, 2), name)); // Location, CraftName
     }
 
-    public void updateSelectedHologram(Player player){
+    public void updateSelectedHologram(Player player) {
         CraftParticle closest = null;
-        for(CraftParticle hologram : this.getHolograms().values()){
-            if(closest == null)
+        for (CraftParticle hologram : this.getHolograms().values()) {
+            if (closest == null)
                 closest = hologram;
-            if(new Vector3(hologram.getX(), hologram.getY(), hologram.getZ()).distance(player) < new Vector3(closest.getX(), closest.getY(), closest.getZ()).distance(player)){
+            if (new Vector3(hologram.getX(), hologram.getY(), hologram.getZ()).distance(player) < new Vector3(closest.getX(), closest.getY(), closest.getZ()).distance(player)) {
                 closest = hologram;
             }
         }
         currentlySelected.put(player.getUniqueId(), closest);
     }
 
-    public CraftParticle getSelectedHologram(Player player){
+    public CraftParticle getSelectedHologram(Player player) {
         return currentlySelected.get(player.getUniqueId());
     }
 
     public boolean deleteHologram(String arg) {
-        if(!holograms.containsKey(arg))
+        if (!holograms.containsKey(arg))
             return false;
         holograms.get(arg).setDeleted();
-       return true;
+        return true;
     }
 
     public String returnList() {
         String s = "";
-        for(Map.Entry<String, CraftParticle> craft : holograms.entrySet()){
-            s+= craft.getKey() + ", ";
+        for (Map.Entry<String, CraftParticle> craft : holograms.entrySet()) {
+            s += craft.getKey() + ", ";
         }
         return s;
     }
@@ -77,19 +76,22 @@ public class HologramManager {
         return Integer.parseInt(arg);
     }
 
-    void save(){
+    void save() {
         Config config = new Config(new File(FloatingPassage.getInstance().getDataFolder(), "holograms.yml"), Config.YAML);
-        for(Map.Entry<String, CraftParticle> hologram : this.getHolograms().entrySet()){
-            if(hologram.getValue().getDeleted())
+        for (Map.Entry<String, CraftParticle> hologram : this.getHolograms().entrySet()) {
+            if (hologram.getValue().getDeleted())
                 continue;
             Map<String, Object> stuff = new HashMap<>();
             Map<String, Object> location = new HashMap<>();
             CraftParticle h = hologram.getValue();
-            location.put("X", h.getX()); location.put("Y", h.getY()); location.put("Z", h.getZ()); location.put("Level", h.getLevel().getName());
+            location.put("X", h.getX());
+            location.put("Y", h.getY());
+            location.put("Z", h.getZ());
+            location.put("Level", h.getLevel().getName());
             stuff.put("Location", location);
             Map<String, Object> text = new HashMap<>();
-            for(CraftParticleLine line : h.getLines()){
-                if(!line.getDisabled())
+            for (CraftParticleLine line : h.getLines()) {
+                if (!line.getDisabled())
                     text.put("Text" + Integer.toString(line.getIndex()), line.getText());
             }
 
@@ -100,12 +102,12 @@ public class HologramManager {
         config.save();
     }
 
-    void load(){
+    void load() {
         Config config = new Config(new File(FloatingPassage.getInstance().getDataFolder(), "holograms.yml"), Config.YAML);
-        for(Map.Entry<String, Object> object : config.getAll().entrySet()){ // THE BIG FILE // THE ORIGINAL HOLOGRAM NAME {HOLOGRAM OBJECT}
+        for (Map.Entry<String, Object> object : config.getAll().entrySet()) { // THE BIG FILE // THE ORIGINAL HOLOGRAM NAME {HOLOGRAM OBJECT}
             holograms.put(object.getKey(), new CraftParticle(new Location(), object.getKey()));
             holograms.get(object.getKey()).updateLocation(Server.getInstance().getLevelByName(config.getString(object.getKey() + ".Location.Level")), config.getDouble(object.getKey() + ".Location.X"), config.getDouble(object.getKey() + ".Location.Y"), config.getDouble(object.getKey() + ".Location.Z"));
-            for(Map.Entry<String, Object> stuff : ((Map<String, Object>) ((Map<String, Object>) object.getValue()).get("Lines")).entrySet()){ // THESE ARE THE LINES
+            for (Map.Entry<String, Object> stuff : ((Map<String, Object>) ((Map<String, Object>) object.getValue()).get("Lines")).entrySet()) { // THESE ARE THE LINES
                 holograms.get(object.getKey()).addLine((String) stuff.getValue());
             }
         }

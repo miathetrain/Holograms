@@ -2,7 +2,6 @@ package com.blademc.uselesswaifu.object;
 
 
 import cn.nukkit.Player;
-import cn.nukkit.Server;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 
@@ -11,22 +10,20 @@ import java.util.List;
 
 /**
  * Created on 2018/01/7 by nora.
-**/
+ **/
 
-public class CraftParticle{
+public class CraftParticle {
 
 
+    // The entities stored within each Hologram
+    private final List<CraftParticleLine> lines;
     // Name
     private String name;
     // Position Variables
     private Level level;
-    private double x,y,z;
-    private int chunkX,chunkZ;
-
-    // The entities stored within each Hologram
-    private final List<CraftParticleLine> lines;
-
-    private boolean allowPlaceholders,deleted;
+    private double x, y, z;
+    private int chunkX, chunkZ;
+    private boolean allowPlaceholders, deleted;
 
 
     public CraftParticle(Location location, String name) {
@@ -36,27 +33,27 @@ public class CraftParticle{
         //addLine("This is an Example Line (Remove using /fp removeline 1)");
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public Level getLevel(){
+    public Level getLevel() {
         return level;
     }
 
-    public Float getX(){
+    public Float getX() {
         return (float) x;
     }
 
-    public Float getY(){
+    public Float getY() {
         return (float) y;
     }
 
-    public Float getZ(){
+    public Float getZ() {
         return (float) z;
     }
 
-    public List<CraftParticleLine> getLines(){
+    public List<CraftParticleLine> getLines() {
         return lines;
     }
 
@@ -69,16 +66,16 @@ public class CraftParticle{
         this.chunkZ = (int) z;
     }
 
-    public Integer addLine(String text){
+    public Integer addLine(String text) {
         int index = countLines();
         lines.add(new CraftParticleLine(this, text, index));
         sendLines();
         return index;
     }
 
-    public void updateLines(){
+    public void updateLines() {
         int index = 1;
-        if(!this.deleted) {
+        if (!this.deleted) {
             for (CraftParticleLine line : lines) {
                 if (!line.getDisabled() && line.getUpdate()) {
                     line.setIndex(index);
@@ -91,50 +88,49 @@ public class CraftParticle{
 
     public void sendLines() {
         int index = 1;
-        if(!this.deleted) {
+        if (!this.deleted) {
             for (CraftParticleLine line : lines) {
                 if (!line.getDisabled()) {
                     line.setIndex(index);
                     index++;
-                        line.sendLine(this.level.getPlayers().values());
+                    line.sendLine(this.level.getPlayers().values());
                 }
             }
         }
     }
 
-    public void setDeleted(){
+    public void setDeleted() {
         setDeleted(true);
     }
 
-    public void setDeleted(Boolean deleted){
-        this.deleted = deleted;
-            for (CraftParticleLine line : lines) {
-                for (Player player : this.level.getPlayers().values())
-                    player.dataPacket(line.removeLine());
-            }
-    }
-
-    public Boolean getDeleted(){
+    public Boolean getDeleted() {
         return this.deleted;
     }
 
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+        for (CraftParticleLine line : lines) {
+            for (Player player : this.level.getPlayers().values())
+                player.dataPacket(line.removeLine());
+        }
+    }
 
     public void deleteLine(String arg) {
         int index = Integer.parseInt(arg);
         for (CraftParticleLine line : lines)
-            if(line.getIndex() == index) {
+            if (line.getIndex() == index) {
                 for (Player player : this.level.getPlayers().values()) {
                     player.dataPacket(line.delLine());
                 }
                 line.setDisabled(true);
-        }
+            }
         reindexLines();
         sendLines();
     }
 
-    private int countLines(){
+    private int countLines() {
         int index = 1;
-        for(CraftParticleLine line : lines){
+        for (CraftParticleLine line : lines) {
             if (!line.getDisabled()) {
                 index++;
             }
@@ -144,12 +140,11 @@ public class CraftParticle{
 
     private void reindexLines() {
         int index = 1;
-        for(CraftParticleLine line : lines){
+        for (CraftParticleLine line : lines) {
             if (!line.getDisabled()) {
                 line.setIndex(index);
                 index++;
-            }
-            else{
+            } else {
                 line.setIndex(-1);
             }
         }

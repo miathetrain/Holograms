@@ -5,8 +5,6 @@ import cn.nukkit.Server;
 import com.blademc.uselesswaifu.placeholder.PlaceholderAPI;
 import com.blademc.uselesswaifu.placeholder.PlaceholderExpansion;
 
-import java.util.Date;
-
 
 public class PlayerExpansion extends PlaceholderExpansion {
 
@@ -139,7 +137,6 @@ public class PlayerExpansion extends PlaceholderExpansion {
         }
         return i;
     }
-
 
 
 }
