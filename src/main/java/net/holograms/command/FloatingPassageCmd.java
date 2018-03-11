@@ -34,7 +34,7 @@ public class FloatingPassageCmd extends Command {
         }
 
         if (args[0].equals("create")) {
-            HologramManager.getInstance().createHologram(args[1], player.getLocation());
+            HologramManager.getInstance().createHologram(args[1], player.getLocation(), false);
             HologramManager.getInstance().updateSelectedHologram(player);
             player.sendMessage(TextFormat.GRAY + "Hologram has been created titled " + TextFormat.YELLOW + args[1]);
             return true;
