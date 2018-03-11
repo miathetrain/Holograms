@@ -5,13 +5,12 @@ import cn.nukkit.Server;
 import cn.nukkit.level.Location;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.utils.Config;
+import cn.nukkit.utils.ConfigSection;
 import net.holograms.object.CraftParticle;
 import net.holograms.object.CraftParticleLine;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class HologramManager {
 
@@ -32,9 +31,11 @@ public class HologramManager {
     }
 
     public CraftParticle createHologram(String name, Location loc, Boolean plugin) {
-        if(plugin)
-            new CraftParticle(loc.add(0, 2), name);
-        return holograms.put(name, new CraftParticle(loc.add(0, 2), name)); // Location, CraftName
+        if (plugin)
+            return new CraftParticle(loc.add(0, 2), name);
+        CraftParticle particle = new CraftParticle(loc.add(0, 2), name);
+        holograms.put(name, particle); // Location, CraftName
+        return particle;
     }
 
     public void updateSelectedHologram(Player player) {
@@ -91,10 +92,10 @@ public class HologramManager {
             location.put("Z", h.getZ());
             location.put("Level", h.getLevel().getName());
             stuff.put("Location", location);
-            Map<String, Object> text = new HashMap<>();
+            ArrayList<String> text = new ArrayList<>();
             for (CraftParticleLine line : h.getLines()) {
                 if (!line.getDisabled())
-                    text.put("Text" + Integer.toString(line.getIndex()), line.getText());
+                    text.add( line.getText());
             }
 
             stuff.put("Lines", text);
@@ -109,8 +110,9 @@ public class HologramManager {
         for (Map.Entry<String, Object> object : config.getAll().entrySet()) { // THE BIG FILE // THE ORIGINAL HOLOGRAM NAME {HOLOGRAM OBJECT}
             holograms.put(object.getKey(), new CraftParticle(new Location(), object.getKey()));
             holograms.get(object.getKey()).updateLocation(Server.getInstance().getLevelByName(config.getString(object.getKey() + ".Location.Level")), config.getDouble(object.getKey() + ".Location.X"), config.getDouble(object.getKey() + ".Location.Y"), config.getDouble(object.getKey() + ".Location.Z"));
-            for (Map.Entry<String, Object> stuff : ((Map<String, Object>) ((Map<String, Object>) object.getValue()).get("Lines")).entrySet()) { // THESE ARE THE LINES
-                holograms.get(object.getKey()).addLine((String) stuff.getValue());
+            List<String> lines = config.getStringList(object.getKey() + ".Lines");
+            for (String stuff : lines) { // THESE ARE THE LINES
+                holograms.get(object.getKey()).addLine(stuff);
             }
         }
     }

@@ -41,7 +41,7 @@ public class FloatingPassage extends PluginBase {
 
         PlaceholderAPI.registerPlaceholderHook(this, new PlayerExpansion());
 
-        new HologramManager();
+        hologramManager = new HologramManager();
 
         getServer().getPluginManager().registerEvents(new MainListener(), this);
 
