@@ -31,8 +31,10 @@ public class HologramManager {
         return holograms;
     }
 
-    public void createHologram(String name, Location loc) {
-        holograms.put(name, new CraftParticle(loc.add(0, 2), name)); // Location, CraftName
+    public CraftParticle createHologram(String name, Location loc, Boolean plugin) {
+        if(plugin)
+            new CraftParticle(loc.add(0, 2), name);
+        return holograms.put(name, new CraftParticle(loc.add(0, 2), name)); // Location, CraftName
     }
 
     public void updateSelectedHologram(Player player) {
