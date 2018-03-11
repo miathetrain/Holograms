@@ -1,5 +1,5 @@
 name: FloatingPassage
-main: com.blademc.uselesswaifu.FloatingPassage
+main: FloatingPassage
 version: "1.0.0"
 api: [1.0.0]
 author: oshiire
