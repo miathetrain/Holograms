@@ -4,25 +4,20 @@ import cn.nukkit.Player;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.utils.TextFormat;
-import net.holograms.FloatingPassage;
+import net.holograms.Holograms;
 import net.holograms.HologramManager;
 
 ;
 
-public class FloatingPassageCmd extends Command {
+public class HologramsCmd extends Command {
 
     private static String SPACE_SEPARATOR = " ";
-    private static FloatingPassageCmd instance;
+    private static HologramsCmd instance;
 
-    public FloatingPassageCmd(FloatingPassage instance) {
-        super("floatingpassage");
-        this.instance = this;
-        setAliases(new String[]{"fp"});
-        setUsage("/fp or /floatingpassage");
-    }
-
-    public static FloatingPassageCmd getInstance() {
-        return instance;
+    public HologramsCmd(Holograms instance) {
+        super("hologram");
+        setAliases(new String[]{"h"});
+        setUsage("/h or /hologram");
     }
 
     @Override
@@ -111,10 +106,10 @@ public class FloatingPassageCmd extends Command {
     }
 
     private void HelpCmd(Player player) {
-        player.sendMessage(TextFormat.YELLOW + "FloatingPassage" + SPACE_SEPARATOR + TextFormat.BOLD.toString() + TextFormat.DARK_GRAY + "»");
-        player.sendMessage(TextFormat.YELLOW + "/fp add" + SPACE_SEPARATOR + TextFormat.DARK_GRAY + "-" + SPACE_SEPARATOR + TextFormat.GRAY + "spawns a specific custom floating text.");
-        player.sendMessage(TextFormat.YELLOW + "/fp del" + SPACE_SEPARATOR + TextFormat.DARK_GRAY + "-" + SPACE_SEPARATOR + TextFormat.GRAY + "despawns a specific custom floating text.");
-        player.sendMessage(TextFormat.YELLOW + "/fp help" + SPACE_SEPARATOR + TextFormat.DARK_GRAY + "-" + SPACE_SEPARATOR + TextFormat.GRAY + "issues this help page.");
+        player.sendMessage(TextFormat.YELLOW + "Hologram" + SPACE_SEPARATOR + TextFormat.BOLD.toString() + TextFormat.DARK_GRAY + "»");
+        player.sendMessage(TextFormat.YELLOW + "/h add" + SPACE_SEPARATOR + TextFormat.DARK_GRAY + "-" + SPACE_SEPARATOR + TextFormat.GRAY + "spawns a specific custom floating text.");
+        player.sendMessage(TextFormat.YELLOW + "/h del" + SPACE_SEPARATOR + TextFormat.DARK_GRAY + "-" + SPACE_SEPARATOR + TextFormat.GRAY + "despawns a specific custom floating text.");
+        player.sendMessage(TextFormat.YELLOW + "/h help" + SPACE_SEPARATOR + TextFormat.DARK_GRAY + "-" + SPACE_SEPARATOR + TextFormat.GRAY + "issues this help page.");
         player.sendMessage(TextFormat.BOLD + TextFormat.GRAY.toString() + "«" + SPACE_SEPARATOR + "»");
     }
 }

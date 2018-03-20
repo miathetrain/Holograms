@@ -1,15 +1,15 @@
 package net.holograms.task;
 
 import cn.nukkit.scheduler.PluginTask;
-import net.holograms.FloatingPassage;
+import net.holograms.Holograms;
 import net.holograms.HologramManager;
-import net.holograms.object.CraftParticle;
-import net.holograms.object.CraftParticleLine;
+import net.holograms.object.CraftHologram;
+import net.holograms.object.CraftHologramLine;
 
-public class HologramUpdateTask extends PluginTask<FloatingPassage> {
-    private FloatingPassage plugin;
+public class HologramUpdateTask extends PluginTask<Holograms> {
+    private Holograms plugin;
 
-    public HologramUpdateTask(FloatingPassage plugin) {
+    public HologramUpdateTask(Holograms plugin) {
         super(plugin);
         this.plugin = plugin;
     }
@@ -17,8 +17,8 @@ public class HologramUpdateTask extends PluginTask<FloatingPassage> {
     @Override
     public void onRun(int i) {
         long time = System.currentTimeMillis();
-        for (CraftParticle hologram : HologramManager.getInstance().getHolograms().values()) {
-            for (CraftParticleLine line : hologram.getLines()) {
+        for (CraftHologram hologram : HologramManager.getInstance().getHolograms().values()) {
+            for (CraftHologramLine line : hologram.getLines()) {
                 if (!line.getDisabled() && time > line.getLastUpdateTime() + line.getDelay()) {
                     line.updateLines();
                 }

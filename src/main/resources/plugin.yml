@@ -1,5 +1,5 @@
-name: FloatingPassage
-main: net.holograms.FloatingPassage
+name: Holograms
+main: net.holograms.Holograms
 version: "1.0.0"
 api: [1.0.0]
 author: oshiire

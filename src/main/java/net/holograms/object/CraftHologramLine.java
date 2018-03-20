@@ -23,10 +23,10 @@ import static cn.nukkit.entity.Entity.DATA_NAMETAG;
  * Created on 2018/01/7 by nora.
  **/
 
-public class CraftParticleLine {
+public class CraftHologramLine {
 
     private static float offset = 0.40f;
-    private CraftParticle manager;
+    private CraftHologram manager;
     private long entityId;
     private String text;
     private int index;
@@ -36,7 +36,7 @@ public class CraftParticleLine {
     private long lastUpdateTime;
     private String previousText;
 
-    CraftParticleLine(CraftParticle manager, String text, int index) {
+    CraftHologramLine(CraftHologram manager, String text, int index) {
         this.manager = manager;
         this.entityId = Entity.entityCount++;
         this.setText(text);

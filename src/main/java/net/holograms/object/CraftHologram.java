@@ -12,11 +12,11 @@ import java.util.List;
  * Created on 2018/01/7 by nora.
  **/
 
-public class CraftParticle {
+public class CraftHologram {
 
 
     // The entities stored within each Hologram
-    private final List<CraftParticleLine> lines;
+    private final List<CraftHologramLine> lines;
     // Name
     private String name;
     // Position Variables
@@ -24,9 +24,10 @@ public class CraftParticle {
     private double x, y, z;
     private int chunkX, chunkZ;
     private boolean allowPlaceholders, deleted;
+    private boolean custom = false;
 
 
-    public CraftParticle(Location location, String name) {
+    public CraftHologram(Location location, String name) {
         updateLocation(location.level, location.x, location.y, location.z);
         this.name = name;
         lines = new ArrayList<>();
@@ -53,7 +54,7 @@ public class CraftParticle {
         return (float) z;
     }
 
-    public List<CraftParticleLine> getLines() {
+    public List<CraftHologramLine> getLines() {
         return lines;
     }
 
@@ -68,7 +69,7 @@ public class CraftParticle {
 
     public Integer addLine(String text) {
         int index = countLines();
-        lines.add(new CraftParticleLine(this, text, index));
+        lines.add(new CraftHologramLine(this, text, index));
         sendLines();
         return index;
     }
@@ -76,7 +77,7 @@ public class CraftParticle {
     public void updateLines() {
         int index = 1;
         if (!this.deleted) {
-            for (CraftParticleLine line : lines) {
+            for (CraftHologramLine line : lines) {
                 if (!line.getDisabled() && line.getUpdate()) {
                     line.setIndex(index);
                     index++;
@@ -89,7 +90,7 @@ public class CraftParticle {
     public void sendLines() {
         int index = 1;
         if (!this.deleted) {
-            for (CraftParticleLine line : lines) {
+            for (CraftHologramLine line : lines) {
                 if (!line.getDisabled()) {
                     line.setIndex(index);
                     index++;
@@ -109,7 +110,7 @@ public class CraftParticle {
 
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
-        for (CraftParticleLine line : lines) {
+        for (CraftHologramLine line : lines) {
             for (Player player : this.level.getPlayers().values())
                 player.dataPacket(line.removeLine());
         }
@@ -117,7 +118,7 @@ public class CraftParticle {
 
     public void deleteLine(String arg) {
         int index = Integer.parseInt(arg);
-        for (CraftParticleLine line : lines)
+        for (CraftHologramLine line : lines)
             if (line.getIndex() == index) {
                 for (Player player : this.level.getPlayers().values()) {
                     player.dataPacket(line.delLine());
@@ -130,7 +131,7 @@ public class CraftParticle {
 
     private int countLines() {
         int index = 1;
-        for (CraftParticleLine line : lines) {
+        for (CraftHologramLine line : lines) {
             if (!line.getDisabled()) {
                 index++;
             }
@@ -140,7 +141,7 @@ public class CraftParticle {
 
     private void reindexLines() {
         int index = 1;
-        for (CraftParticleLine line : lines) {
+        for (CraftHologramLine line : lines) {
             if (!line.getDisabled()) {
                 line.setIndex(index);
                 index++;
@@ -148,5 +149,13 @@ public class CraftParticle {
                 line.setIndex(-1);
             }
         }
+    }
+
+    public void setCustom() {
+        custom = true;
+    }
+
+    public boolean getCustom() {
+        return custom;
     }
 }

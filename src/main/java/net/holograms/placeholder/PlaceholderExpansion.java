@@ -1,6 +1,6 @@
 package net.holograms.placeholder;
 
-import net.holograms.FloatingPassage;
+import net.holograms.Holograms;
 
 import java.util.List;
 
@@ -34,12 +34,12 @@ public abstract class PlaceholderExpansion extends PlaceholderHook {
     }
 
     /**
-     * Quick getter for the {@link FloatingPassage} instance
+     * Quick getter for the {@link Holograms} instance
      *
-     * @return {@link FloatingPassage} instance
+     * @return {@link Holograms} instance
      */
-    public FloatingPassage getPlaceholderAPI() {
-        return FloatingPassage.getInstance();
+    public Holograms getPlaceholderAPI() {
+        return Holograms.getInstance();
     }
 
     /**
