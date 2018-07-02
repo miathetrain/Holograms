@@ -6,6 +6,7 @@ import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -95,6 +96,19 @@ public class CraftHologram {
                     line.setIndex(index);
                     index++;
                     line.sendLine(this.level.getPlayers().values());
+                }
+            }
+        }
+    }
+
+    public void sendLines(Player player) {
+        int index = 1;
+        if (!this.deleted) {
+            for (CraftHologramLine line : lines) {
+                if (!line.getDisabled()) {
+                    line.setIndex(index);
+                    index++;
+                    line.sendLine(Collections.singleton(player));
                 }
             }
         }

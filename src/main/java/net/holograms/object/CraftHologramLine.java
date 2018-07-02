@@ -135,7 +135,7 @@ public class CraftHologramLine {
 
             AddPlayerPacket pk = new AddPlayerPacket();
             pk.uuid = UUID.randomUUID();
-            pk.username = "";
+            pk.username = TextFormat.colorize(name);
             pk.entityUniqueId = this.entityId;
             pk.entityRuntimeId = this.entityId;
             pk.x = manager.getX();
@@ -153,7 +153,6 @@ public class CraftHologramLine {
             );
             pk.metadata = new EntityMetadata()
                     .putLong(Entity.DATA_FLAGS, flags)
-                    .putString(DATA_NAMETAG, TextFormat.colorize(name))
                     .putLong(Entity.DATA_LEAD_HOLDER_EID, -1)
                     .putFloat(Entity.DATA_SCALE, 0.00f); //zero causes problems on debug builds?
             pk.item = Item.get(Item.AIR);

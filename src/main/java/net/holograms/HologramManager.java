@@ -84,6 +84,11 @@ public class HologramManager {
 
     void save() {
         Config config = new Config(new File(Holograms.getInstance().getDataFolder(), "holograms.yml"), Config.YAML);
+
+        /* Empty Config **/
+        for(String s : config.getAll().keySet())
+            config.remove(s);
+
         for (Map.Entry<String, CraftHologram> hologram : this.getHolograms().entrySet()) {
             if (hologram.getValue().getDeleted())
                 continue;

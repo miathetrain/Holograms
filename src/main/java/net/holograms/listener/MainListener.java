@@ -11,7 +11,7 @@ public class MainListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         for (CraftHologram hologram : HologramManager.getInstance().getHolograms().values()) {
-            hologram.sendLines();
+            hologram.sendLines(event.getPlayer());
         }
     }
 }

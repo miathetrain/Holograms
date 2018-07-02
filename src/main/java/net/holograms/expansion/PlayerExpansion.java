@@ -119,6 +119,8 @@ public class PlayerExpansion extends PlaceholderExpansion {
                 return p == null ? null : String.valueOf(p.getInAirTicks());
             case "time":
                 return p == null ? null : String.valueOf(p.getLevel().getTime());
+            case "count":
+                return Integer.toString(Server.getInstance().getOnlinePlayers().size());
         }
         return identifier;
 
