@@ -47,7 +47,7 @@ public class CraftHologramLine {
         return text;
     }
 
-    private void setText(String text) {
+    public void setText(String text) {
         this.text = text;
         this.update = false;
         Scanner sc = new Scanner(text);

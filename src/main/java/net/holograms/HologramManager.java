@@ -30,6 +30,10 @@ public class HologramManager {
     }
 
     public CraftHologram createHologram(String name, Location loc, Boolean plugin) {
+        if(loc.level == null){
+            Server.getInstance().getLogger().error("Hologram Location is missing the level.");
+        }
+
         if (plugin) {
             CraftHologram p = new CraftHologram(loc.add(0, 2), name);
             p.setCustom();

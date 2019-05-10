@@ -6,6 +6,7 @@ import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -73,6 +74,14 @@ public class CraftHologram {
         lines.add(new CraftHologramLine(this, text, index));
         sendLines();
         return index;
+    }
+
+    public void setLine(int index, String text) {
+        for (CraftHologramLine line : lines)
+            if (line.getIndex() == index) {
+                line.setText(text);
+            }
+        sendLines();
     }
 
     public void updateLines() {
