@@ -3,6 +3,7 @@ package net.holograms.listener;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerJoinEvent;
+import cn.nukkit.event.player.PlayerMoveEvent;
 import net.holograms.HologramManager;
 import net.holograms.object.CraftHologram;
 
@@ -11,7 +12,7 @@ public class MainListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         for (CraftHologram hologram : HologramManager.getInstance().getHolograms().values()) {
-            hologram.sendLines(event.getPlayer());
+//            hologram.sendLines(event.getPlayer());
         }
     }
 }

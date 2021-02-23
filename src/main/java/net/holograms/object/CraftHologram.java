@@ -4,18 +4,18 @@ package net.holograms.object;
 import cn.nukkit.Player;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Location;
+import cn.nukkit.math.Vector3;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created on 2018/01/7 by nora.
  **/
 
 public class CraftHologram {
-
 
     // The entities stored within each Hologram
     private final List<CraftHologramLine> lines;
@@ -27,6 +27,7 @@ public class CraftHologram {
     private int chunkX, chunkZ;
     private boolean allowPlaceholders, deleted;
     private boolean custom = false;
+    private ArrayList<UUID> viewers = new ArrayList<>();
 
 
     public CraftHologram(Location location, String name) {
@@ -81,7 +82,7 @@ public class CraftHologram {
             if (line.getIndex() == index) {
                 line.setText(text);
             }
-        sendLines();
+//        sendLines();
     }
 
     public void updateLines() {
@@ -98,26 +99,31 @@ public class CraftHologram {
     }
 
     public void sendLines() {
-        int index = 1;
-        if (!this.deleted) {
-            for (CraftHologramLine line : lines) {
-                if (!line.getDisabled()) {
-                    line.setIndex(index);
-                    index++;
-                    line.sendLine(this.level.getPlayers().values());
-                }
-            }
-        }
+        this.level.getPlayers().values().forEach(this::sendLines);
     }
 
     public void sendLines(Player player) {
         int index = 1;
         if (!this.deleted) {
-            for (CraftHologramLine line : lines) {
-                if (!line.getDisabled()) {
-                    line.setIndex(index);
-                    index++;
-                    line.sendLine(Collections.singleton(player));
+            if (!this.viewers.contains(player.getUniqueId())) {
+                if (player.distance(new Vector3(x, y, z)) <= 13) {
+                    for (CraftHologramLine line : lines) {
+                        if (!line.getDisabled()) {
+                            line.setIndex(index);
+                            index++;
+                            line.sendLine(Collections.singleton(player));
+                            viewers.add(player.getUniqueId());
+                        }
+                    }
+                }
+            } else {
+                if (player.distance(new Vector3(x, y, z)) >= 14) {
+                    for (CraftHologramLine line : lines) {
+                        if (!line.getDisabled()) {
+                            player.dataPacket(line.removeLine());
+                            viewers.remove(player.getUniqueId());
+                        }
+                    }
                 }
             }
         }

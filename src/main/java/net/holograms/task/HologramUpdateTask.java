@@ -18,8 +18,9 @@ public class HologramUpdateTask extends PluginTask<Holograms> {
     public void onRun(int i) {
         long time = System.currentTimeMillis();
         for (CraftHologram hologram : HologramManager.getInstance().getHolograms().values()) {
+            hologram.sendLines();
             for (CraftHologramLine line : hologram.getLines()) {
-                if (!line.getDisabled() && time > line.getLastUpdateTime() + line.getDelay()) {
+                if (!line.getDisabled() ) {
                     line.updateLines();
                 }
             }

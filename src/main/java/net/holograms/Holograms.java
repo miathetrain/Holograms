@@ -3,9 +3,7 @@ package net.holograms;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.TextFormat;
 import net.holograms.command.HologramsCmd;
-import net.holograms.expansion.PlayerExpansion;
 import net.holograms.listener.MainListener;
-import net.holograms.placeholder.PlaceholderAPI;
 import net.holograms.task.HologramUpdateTask;
 
 public class Holograms extends PluginBase {
@@ -38,8 +36,6 @@ public class Holograms extends PluginBase {
         System.setProperty("HologramsLoaded", "true");
         this.getLogger().info(TextFormat.YELLOW + "Holograms has been enabled");
         instance = this;
-
-        PlaceholderAPI.registerPlaceholderHook(this, new PlayerExpansion());
 
         hologramManager = new HologramManager();
 
