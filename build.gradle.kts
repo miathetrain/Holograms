@@ -4,8 +4,10 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "2.0.20-Beta2"
     id("org.jetbrains.kotlin.kapt") version "2.0.20-Beta2"
     id("io.github.goooler.shadow") version "8.1.8"
-
 }
+
+group "com.cybergirly.hub"
+version "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
